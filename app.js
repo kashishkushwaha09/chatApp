@@ -4,6 +4,7 @@ const app=express();
 const db=require('./utils/db-connection');
 const errorMiddleware=require('./middlewares/errorHandler');
 const userRoutes=require('./routes/userRoutes');
+require('./models');
 app.use(express.static('public'));
 app.use(express.json());
 

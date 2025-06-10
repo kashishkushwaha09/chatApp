@@ -11,6 +11,9 @@ async function loginUser(event) {
         })
         console.log(response);
         if (response?.data) {
+            if(response.data.token){
+          axios.defaults.headers.common['Authorization']=`Bearer ${response.data.token}`;
+         }
             alert(response.data.message);
         }
     } catch (error) {

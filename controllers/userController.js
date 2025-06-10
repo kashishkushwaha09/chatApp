@@ -26,8 +26,9 @@ const loginUser=async(req,res)=>{
         if(!token){
             throw new AppError("Error in user login", 500);
         }
+        console.log(token);
         return res.status(200).json({
-            message:"user Logged in successfully"
+            message:"user Logged in successfully",token
         })
     } catch (error) {
         if (!(error instanceof AppError)) {
