@@ -35,6 +35,29 @@ const {name, email, phone, password}=user;
     throw error;
     }
 }
+const loginUser=async(email,password)=>{
+    try {
+          const existingUser = await findByEmail(email);
+        if (!existingUser) {
+            throw new AppError("User Not found", 404);
+        }
+        const isPasswordMatched=await bcrypt.compare(password,existingUser.password);
+        if(!isPasswordMatched){
+            throw new AppError("User Not Authorized", 401);
+        }
+        const token=jwt.sign(
+            {userId:existingUser.id,email:existingUser.email},
+            process.env.SECRET_KEY,
+            {expiresIn:'7d'}
+        );
+        return token;
+    } catch (error) {
+         if (!(error instanceof AppError)) {
+        error = new AppError(error.message, 500);
+    }
+    throw error;
+    }
+}
 module.exports={
-    signUpUser
+    signUpUser,loginUser
 }

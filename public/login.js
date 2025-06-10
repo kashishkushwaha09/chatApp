@@ -6,7 +6,7 @@ async function loginUser(event) {
     const email = event.target.email.value;
     const password = event.target.password.value;
     try {
-        const response = await axios.post(`${url}/signup`, {
+        const response = await axios.post(`${url}/login`, {
             email,password
         })
         console.log(response);

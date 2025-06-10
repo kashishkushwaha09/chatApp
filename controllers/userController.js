@@ -19,8 +19,23 @@ const signUpUser=async(req,res)=>{
     throw error;
     }
 }
-
-
+const loginUser=async(req,res)=>{
+  try {
+        const {email,password}=req.body;
+        const token=await userService.loginUser(email,password);
+        if(!token){
+            throw new AppError("Error in user login", 500);
+        }
+        return res.status(200).json({
+            message:"user Logged in successfully"
+        })
+    } catch (error) {
+        if (!(error instanceof AppError)) {
+        error = new AppError(error.message, 500);
+    }
+    throw error;
+    }
+}
 module.exports={
-    signUpUser
+    signUpUser,loginUser
 }
