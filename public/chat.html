@@ -18,10 +18,10 @@
         width:50vw !important;
     }
     .chat input{
-        width: 80% !important;
+        width: 30vw !important;
     }
     .chat button{
-        width: 10% !important;
+        width: 70px !important;
     }
 </style>
 <body class="position-relative">
@@ -35,13 +35,13 @@
     </div>
     <form class=" p-3 container-fluid position-fixed bottom-0 d-flex justify-content-center align-items-center">
 <div class="input-group chat">
-  <input type="text" class="form-control" placeholder="Recipient’s username" aria-label="Recipient’s username" aria-describedby="button-addon2">
-  <button class="btn btn-secondary" type="button" id="button-addon2">Button</button>
+  <input type="text" id="message" name="message" class="form-control" placeholder="start chat with your friend">
+  <button class="btn btn-secondary" type="submit" >Send</button>
 </div>
 </form>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="login.js"></script>
+    <script src="chat.js"></script>
 </body>
 </html>
