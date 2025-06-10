@@ -17,4 +17,21 @@ const addMessage=async(req,res)=>{
     throw error;
     }
 }
-module.exports={addMessage}
+const getMessages=async(req,res)=>{
+   try {
+      
+        const allChats=await chatService.getMessages();
+        if(!allChats){
+            throw new AppError("Something went wrong", 500);
+        }
+        return res.status(200).json({
+            message:"Chats found successfully",chats:allChats
+        })
+    } catch (error) {
+        if (!(error instanceof AppError)) {
+        error = new AppError(error.message, 500);
+    }
+    throw error;
+    } 
+}
+module.exports={addMessage,getMessages}

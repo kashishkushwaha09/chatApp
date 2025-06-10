@@ -25,7 +25,34 @@ async function addMessage(event){
     }
    
 }
+async function fetchChats() {
+    try {
+        const response=await axios.get(`${url}`);
+        console.log(response);
+        return response.data.chats;
+    } catch (error) {
+        console.log(error);
+       alert(error.response?.data?.message || error.message);
+    }
+}
+async function showChats(){
+    const chatList=document.querySelector('.list-group');
+   const chats=await fetchChats();
+   console.log(chats);
+   chats.forEach((chat,index) => {
+    const list=document.createElement('li');
+    list.innerText=chat.message;
+    list.classList.add('list-group-item');
+    if((index+1)%2!==0){
+     list.classList.add('list-group-item-light');   
+    }else{
+      list.classList.add('list-group-item-dark');    
+    }
+    chatList.appendChild(list);
+   });
+}
 form.addEventListener('submit', (event) => {
     event.preventDefault();
     addMessage(event);
 })
+document.addEventListener('DOMContentLoaded',showChats);

@@ -13,8 +13,18 @@ try {
     throw error;
 }
 }
-
+const getMessages=async()=>{
+  try {
+    const allChats=await Chat.findAll();
+    return allChats;
+} catch (error) {
+    if (!(error instanceof AppError)) {
+        error = new AppError(error.message, 500);
+    }
+    throw error;
+}  
+}
 
 module.exports={
-    addMessage
+    addMessage,getMessages
 }
