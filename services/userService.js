@@ -18,7 +18,7 @@ const {name, email, phone, password}=user;
         // Check if the user already exists
         const existingUser = await findByEmail(email);
         if (existingUser) {
-            throw new AppError("User already exists", 409);
+            throw new AppError("User already exists please login", 409);
         }
         const hashPassword = await bcrypt.hash(password, 10);
         const user = await User.create({

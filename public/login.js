@@ -1,14 +1,13 @@
 const form = document.querySelector('form');
 const url = 'http://localhost:4200/api/users'
 
-async function signUpUser(event) {
-    const name = event.target.name.value;
+async function loginUser(event) {
+  
     const email = event.target.email.value;
-    const phone = event.target.phone.value;
     const password = event.target.password.value;
     try {
         const response = await axios.post(`${url}/signup`, {
-            name, email, phone, password
+            email,password
         })
         console.log(response);
         if (response?.data) {
@@ -22,5 +21,5 @@ async function signUpUser(event) {
 }
 form.addEventListener('submit', (event) => {
     event.preventDefault();
-    signUpUser(event);
+    loginUser(event);
 })
