@@ -37,6 +37,7 @@ async function fetchChats() {
 }
 async function showChats(){
     const chatList=document.querySelector('.list-group');
+    chatList.innerHTML='';
    const chats=await fetchChats();
    console.log(chats);
    chats.forEach((chat,index) => {
@@ -55,4 +56,9 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
     addMessage(event);
 })
-document.addEventListener('DOMContentLoaded',showChats);
+document.addEventListener('DOMContentLoaded',()=>{
+    setInterval(() => {
+         showChats();
+    }, 1000);
+   
+});
