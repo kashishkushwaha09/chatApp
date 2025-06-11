@@ -19,8 +19,8 @@ const addMessage=async(req,res)=>{
 }
 const getMessages=async(req,res)=>{
    try {
-      
-        const allChats=await chatService.getMessages();
+       const lastMsgId=req.query.lastMsgId;
+        const allChats=await chatService.getMessages(lastMsgId);
         if(!allChats){
             throw new AppError("Something went wrong", 500);
         }

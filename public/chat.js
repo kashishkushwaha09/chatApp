@@ -25,9 +25,9 @@ async function addMessage(event){
     }
    
 }
-async function fetchChats() {
+async function fetchChats(lastMsgId) {
     try {
-        const response=await axios.get(`${url}`);
+        const response=await axios.get(`${url}?lastMsgId=${lastMsgId}`);
         console.log(response);
         return response.data.chats;
     } catch (error) {
@@ -35,10 +35,21 @@ async function fetchChats() {
        alert(error.response?.data?.message || error.message);
     }
 }
-async function showChats(){
+async function getAllChats(){
+     let messages = JSON.parse(localStorage.getItem('groupMessages')) || [];
+     let lastMsgId=messages.length>0?messages[messages.length-1].id : 0;
+     console.log(messages);
+     const newMessages=await fetchChats(lastMsgId);
+     messages=[...messages,...newMessages];
+   const recentMessages = messages.slice(-10);
+    
+    localStorage.setItem('groupMessages', JSON.stringify(recentMessages));
+     return recentMessages;
+}
+ async function showChats(){
     const chatList=document.querySelector('.list-group');
     chatList.innerHTML='';
-   const chats=await fetchChats();
+   const chats=await getAllChats();
    console.log(chats);
    chats.forEach((chat,index) => {
     const list=document.createElement('li');
@@ -57,8 +68,8 @@ form.addEventListener('submit', (event) => {
     addMessage(event);
 })
 document.addEventListener('DOMContentLoaded',()=>{
-    setInterval(() => {
+    // setInterval(() => {
          showChats();
-    }, 1000);
+    // }, 1000);
    
 });

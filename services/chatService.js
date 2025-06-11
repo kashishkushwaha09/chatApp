@@ -1,5 +1,5 @@
 const Chat=require('../models/chatModel');
-
+const { Op } = require('sequelize');
 const addMessage=async(message,userId)=>{
 try {
     const newChat=await Chat.create({
@@ -13,9 +13,15 @@ try {
     throw error;
 }
 }
-const getMessages=async()=>{
+const getMessages=async(lastMsgId)=>{
   try {
-    const allChats=await Chat.findAll();
+    const allChats=await Chat.findAll({
+        where:{
+            id:{
+                [Op.gt]:lastMsgId
+            }
+        }
+    });
     return allChats;
 } catch (error) {
     if (!(error instanceof AppError)) {
