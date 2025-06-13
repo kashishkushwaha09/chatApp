@@ -2,11 +2,20 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const { AppError } = require('../utils/appError');
+const { Op } = require('sequelize');
 
 
 const findByEmail = async (email) => {
     try {
         const user = await User.findOne({ where: { email: email } });
+        return user;
+    } catch (error) {
+      throw new AppError(error.message, 500);
+    }
+}
+const findById=async(id)=>{
+      try {
+        const user = await User.findByPk(parseInt(id));
         return user;
     } catch (error) {
       throw new AppError(error.message, 500);
@@ -58,6 +67,19 @@ const loginUser=async(email,password)=>{
     throw error;
     }
 }
+const fetchAllUsersExceptMe=async(userId)=>{
+    try {
+        const users=await User.findAll({
+            where:{
+                id:{[Op.ne]:userId}
+            },
+            attributes:['id','name'],
+        });
+        return users;
+    } catch (error) {
+        throw new AppError(error.message,500);
+    }
+}
 module.exports={
-    signUpUser,loginUser
+    signUpUser,loginUser,findById,fetchAllUsersExceptMe
 }

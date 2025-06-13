@@ -1,0 +1,20 @@
+ #message-form{
+        /* width: 100vw; */
+        background-color: rgb(3, 88, 109);
+    }
+    /* input,button{
+        width: 25vw !important;
+    } */
+    .chat{
+        width:50vw !important;
+    }
+    .chat input{
+        width: 30vw !important;
+    }
+    .chat button{
+        width: 70px !important;
+    }
+
+    #left,#right{
+        width: 50vw;
+    }

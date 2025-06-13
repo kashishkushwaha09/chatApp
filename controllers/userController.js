@@ -37,6 +37,18 @@ const loginUser=async(req,res)=>{
     throw error;
     }
 }
+const fetchAllUsersExceptMe=async(req,res)=>{
+    try {
+        const users=await userService.fetchAllUsersExceptMe(req.user.id);
+        if(!users) throw new AppError("something went wrong",500);
+       res.status(200).json({users,success:true});
+    } catch (error) {
+        if (!(error instanceof AppError)) {
+        error = new AppError(error.message, 500);
+    }
+    throw error;
+    }
+}
 module.exports={
-    signUpUser,loginUser
+    signUpUser,loginUser,fetchAllUsersExceptMe
 }

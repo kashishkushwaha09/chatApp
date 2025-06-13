@@ -4,6 +4,7 @@ const chatController=require('../controllers/chatController');
 
 router.post('/',chatController.addMessage);
 router.get('/',chatController.getMessages);
+router.get('/groupChats/:id',chatController.fetchAllGroupMessages);
 
 
 
