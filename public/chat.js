@@ -7,6 +7,7 @@ const newGroupBtn = document.getElementById('newGroupBtn');
 const newGroupForm = document.getElementById('newGroupForm');
 const selectUserDiv = document.getElementById('select-users');
 const groupList=document.getElementById('groupList');
+const chatHeader=document.getElementById('chatHeader');
 const url = 'http://localhost:4200/api'
 
 if (token) {
@@ -15,7 +16,7 @@ if (token) {
 
 async function addMessage(event) {
     const message = event.target.message.value;
-    const groupId=sessionStorage.getItem('groupId');
+    const groupId=localStorage.getItem('groupId');
 
     console.log(message);
     try {
@@ -70,6 +71,7 @@ async function showChats(chats) {
         const list = document.createElement('li');
         list.innerHTML =`<span class="fw-semibold">${chat.User.name}:</span> ${chat.message}`;
         list.classList.add('list-group-item');
+    
         if ((index + 1) % 2 !== 0) {
             list.classList.add('list-group-item-light');
         } else {
@@ -100,8 +102,6 @@ function addInSelectUsers(users) {
        `;
        selectUserDiv.appendChild(inputGroup);
         });
-
-
 }
 async function createGroup(name,userIds){
     try {
@@ -118,7 +118,7 @@ async function createGroup(name,userIds){
     }
   
 }
-function handleGroupSubmit(event){
+async function handleGroupSubmit(event){
 event.preventDefault();
 const groupName=event.target.groupName.value;
 // console.log("newform is submitted ",groupName);
@@ -127,10 +127,12 @@ const checkboxes=selectUserDiv.querySelectorAll('input[type="checkbox"]:checked'
 checkboxes.forEach(cb => checkedUsers.push(parseInt(cb.value)));
     // console.log('Selected Users:', checkedUsers);
     if(checkedUsers.length>0){
-        const isCreated=createGroup(groupName,checkedUsers);
+        const isCreated=await createGroup(groupName,checkedUsers);
+        console.log("isCreated",isCreated);
         if(isCreated){
             checkboxes.forEach(cb =>cb.checked=false);
             document.getElementById('groupName').value='';
+             showGroups();
         }
     }
 }
@@ -171,13 +173,34 @@ userGroups?.forEach((group)=>{
         groupList.querySelectorAll('li').forEach(list=> list.classList.remove('active'));
         list.classList.add('active');
       const chats=await getAllChats(group.id);
-      sessionStorage.setItem('groupId',group.id);
+      localStorage.setItem('groupId',group.id);
+      localStorage.setItem('groupName',group.name);
+      chatHeader.querySelector('h3').innerText=group.name;
          showChats(chats);
     })
     groupList.appendChild(list);
 })
 }
-
+async function searchUsersByQuery(searchTerm) {
+     try {
+        const response = await axios.get(`${url}/users?query=${searchTerm}`);
+        console.log(response);
+        const users = await response.data.users;
+      return users;
+    } catch (error) {
+        console.log(error);
+        alert(error.response?.data?.message || error.message);
+    }
+}
+async function searchUsers(){
+    let searchTerm = document.getElementById('searchInput').value;
+        let users = await searchUsersByQuery(searchTerm);
+        if(users.length===0){
+            users=await fetchAllUsersExceptMe();
+        }
+      addInSelectUsers(users);
+}
+document.getElementById('searchInput')?.addEventListener('input',searchUsers);
 msgForm.addEventListener('submit', (event) => {
     event.preventDefault();
     addMessage(event);
@@ -189,9 +212,16 @@ newGroupBtn.addEventListener('click', async () => {
     }
 })
 newGroupForm.addEventListener('submit',handleGroupSubmit);
+chatHeader.addEventListener('click',()=>{
+    const groupId=parseInt(localStorage.getItem('groupId'));
+    if(groupId){
+        console.log(`chatHeader is clicked ${groupId}`);
+        window.location.assign('groupDetail.html')
+    }
+})
 document.addEventListener('DOMContentLoaded', () => {
     // setInterval(() => {
-   sessionStorage.removeItem('groupId');
+   localStorage.removeItem('groupId');
     showGroups();
     // }, 1000);
 

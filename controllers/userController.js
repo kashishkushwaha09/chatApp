@@ -22,13 +22,13 @@ const signUpUser=async(req,res)=>{
 const loginUser=async(req,res)=>{
   try {
         const {email,password}=req.body;
-        const token=await userService.loginUser(email,password);
+        const {existingUser,token}=await userService.loginUser(email,password);
         if(!token){
             throw new AppError("Error in user login", 500);
         }
-        console.log(token);
         return res.status(200).json({
-            message:"user Logged in successfully",token
+            message:"user Logged in successfully",token,
+            user:{id:existingUser.id,name:existingUser.name}
         })
     } catch (error) {
         if (!(error instanceof AppError)) {
@@ -39,7 +39,8 @@ const loginUser=async(req,res)=>{
 }
 const fetchAllUsersExceptMe=async(req,res)=>{
     try {
-        const users=await userService.fetchAllUsersExceptMe(req.user.id);
+        const {query}=req.query;
+        const users=await userService.fetchAllUsersExceptMe(req.user.id,query);
         if(!users) throw new AppError("something went wrong",500);
        res.status(200).json({users,success:true});
     } catch (error) {

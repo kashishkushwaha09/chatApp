@@ -14,6 +14,9 @@ Chat.belongsTo(Group);
 
 User.belongsToMany(Group,{through:UserGroup});
 Group.belongsToMany(User,{through:UserGroup});
+
+UserGroup.belongsTo(User);
+UserGroup.belongsTo(Group);
 module.exports={
     User,Chat,Group,UserGroup
 }

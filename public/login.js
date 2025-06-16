@@ -11,8 +11,10 @@ async function loginUser(event) {
         })
         console.log(response);
         if (response?.data) {
-            if(response.data.token){
+            if(response.data){
                 localStorage.setItem('token',response.data.token);
+                localStorage.setItem('userId',response.data.user.id);
+                localStorage.setItem('userName',response.data.user.name);
                 window.location.assign('chat.html');
         //   axios.defaults.headers.common['Authorization']=`Bearer ${response.data.token}`;
          }

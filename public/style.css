@@ -18,3 +18,12 @@
     #left,#right{
         width: 50vw;
     }
+    #groupList{
+         max-height: 59vh; 
+         overflow-y: auto;
+    }
+    /* id="select-users" */
+    #select-users{
+ max-height: 41vh; 
+         overflow-y: auto;
+    }

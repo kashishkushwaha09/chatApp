@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path=require('path');
 const express=require('express');
 const app=express();
 const db=require('./utils/db-connection');
@@ -11,6 +12,10 @@ require('./models');
 app.use(express.static('public'));
 app.use(express.json());
 
+// Redirect root URL to signup.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'signup.html'));
+});
 app.use('/api/users', userRoutes);
 app.use('/api/chats',authenticateUser,chatRoutes);
 app.use('/api/groups',authenticateUser,groupRoutes);
