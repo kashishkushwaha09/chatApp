@@ -1,6 +1,6 @@
-const token = localStorage.getItem("token");
-const groupId = parseInt(localStorage.getItem('groupId'));
-const groupName=localStorage.getItem('groupName');
+const token = sessionStorage.getItem("token");
+const groupId = parseInt(sessionStorage.getItem('groupId'));
+const groupName=sessionStorage.getItem('groupName');
 const membersList = document.getElementById('membersList');
 const selectUserDiv = document.getElementById('select-users');
 const addUserBtn = document.getElementById('addUserBtn');
@@ -73,7 +73,7 @@ async function showMembers() {
    
     membersList.innerHTML = '';
     const groupMembers = await fetchMembers();
-    const userId = localStorage.getItem('userId');
+    const userId = sessionStorage.getItem('userId');
    
    
     if (groupMembers) {
