@@ -5,7 +5,7 @@ const membersList = document.getElementById('membersList');
 const selectUserDiv = document.getElementById('select-users');
 const addUserBtn = document.getElementById('addUserBtn');
 const addUsersInGroupForm=document.getElementById('addUsersInGroup');
-const url = 'http://localhost:4200/api'
+const url = '/api'
  let userRole='';
 if (token) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

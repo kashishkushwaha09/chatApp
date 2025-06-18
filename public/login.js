@@ -1,5 +1,5 @@
 const form = document.querySelector('form');
-const url = 'http://localhost:4200/api/users'
+const url = '/api/users'
 
 async function loginUser(event) {
   

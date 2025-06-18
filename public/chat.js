@@ -8,7 +8,7 @@ const newGroupForm = document.getElementById('newGroupForm');
 const selectUserDiv = document.getElementById('select-users');
 const groupList=document.getElementById('groupList');
 const chatHeader=document.getElementById('chatHeader');
-const url = 'http://localhost:4200/api'
+const url = '/api'
 
 if (token) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
