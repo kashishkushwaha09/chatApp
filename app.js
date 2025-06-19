@@ -41,8 +41,9 @@ socket.on('new-user',name=>{
   // socket.broadcast.emit('user-connected',name);
 })
 socket.on('send-chat-message',data=>{
+  const roomName = data.groupId.toString();
   console.log('send-chat-message ',typeof data.groupId);
-  io.to(data.groupId).emit('receive-chat-message',data)
+  io.to(roomName).emit('receive-chat-message',data)
 })
     socket.on('disconnect',()=>{
         console.log('A user disconnected');

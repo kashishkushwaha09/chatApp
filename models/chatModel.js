@@ -9,8 +9,19 @@ const Chat=sequelize.define('Chats',{
     },
     message:{
         type:DataTypes.STRING,
-        allowNull:false
     },
-   
+     fileName: {
+    type: DataTypes.STRING,
+  },
+    fileUrl:{
+        type:DataTypes.STRING,
+    },
+    fileType:{
+        type:DataTypes.STRING,
+    },
+    isFile:{
+         type:DataTypes.BOOLEAN,
+         defaultValue:false
+    }
 });
 module.exports=Chat;
